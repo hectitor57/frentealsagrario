@@ -7,6 +7,7 @@ let fechaHasta = "";
 let textoBusqueda = "";
 let filtro = "todas";	
 let leidos = JSON.parse(localStorage.getItem("leidos")) || [];
+let likes = JSON.parse(localStorage.getItem("likes")) || [];
 let datosGlobal = [];
 let modoVista = localStorage.getItem("modoVista") || "tarjetas";
 
@@ -31,6 +32,7 @@ function mostrarDetalle(post){
     let contenido = document.getElementById("contenidoDetalle");
 
     let esLeido = leidos.includes(post.id);
+    let tieneLike = likes.includes(post.id);
 
     audio.volume = 0.15;
 
@@ -45,6 +47,15 @@ function mostrarDetalle(post){
                 ${esLeido ? "📕 Marcar como NO leído" : "📖 Marcar como leído"}
 
         </button>
+
+	<button onclick="toggleLike(${post.id})" style="
+	    margin-bottom:10px;
+	    padding:5px 10px;
+	    cursor:pointer;
+	">
+	    ${tieneLike ? "❤️ Ya me gustó" : "🤍 Me gustó esta reflexión"}
+	</button>
+
 	<button onclick="traerFotoAutomatica(${post.id})">
 	    📷 Traer foto automática
 	</button>
@@ -136,18 +147,27 @@ dataFiltrada.sort((a, b) => {
 // 👉 RECORRER
 dataFiltrada.forEach((post) => {
 
-        let div = document.createElement("div");
+    let tieneLike = likes.includes(post.id);
 
-        if(modoVista === "tarjetas"){
+    let div = document.createElement("div");
 
-            div.className = "tarjeta";
+    if(modoVista === "tarjetas"){
 
-            div.innerHTML = `
-                <img src="${post.imagen}">
-                <h3>${resaltarTexto(post.titulo, textoBusqueda)}</h3>
-            `;
+        div.className = "tarjeta";
 
-        } else {
+        div.innerHTML = `
+            <img src="${post.imagen}">
+
+            <h3>${resaltarTexto(post.titulo, textoBusqueda)}</h3>
+
+            <div style="
+                padding:0 10px 10px 10px;
+                color:#c0392b;
+                font-size:14px;
+            ">
+                ${tieneLike ? "❤️" : "🤍"}
+            </div>
+        `;        } else {
 
             div.style.borderBottom = "1px solid #ccc";
             div.style.padding = "10px";
@@ -229,6 +249,24 @@ function toggleLeido(id){
     // 👇 DESPUÉS cerrar
     cerrarDetalle();
 }
+
+function toggleLike(id){
+
+    if(likes.includes(id)){
+        likes = likes.filter(i => i !== id);
+    } else {
+        likes.push(id);
+    }
+
+    localStorage.setItem("likes", JSON.stringify(likes));
+
+    renderizar(datosGlobal);
+
+    let post = datosGlobal.find(p => p.id === id);
+
+    mostrarDetalle(post);
+}
+
 // CAMBIAR FILTRO
 function cambiarFiltro(tipo){
     filtro = tipo;
