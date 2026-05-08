@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>FrenteAlSagrario</title>
+
+<style>
+
+body{
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+    background: #f5f1ea;
+    margin:0;
+}
+
+h1{
+    text-align:center;
+    padding:20px;
+    color:#5a4a3f;
+}
+
+/* TABS */
+#tabs{
+    display:flex;
+    justify-content:center;
+    gap:10px;
+    margin-bottom:10px;
+}
+
+#tabs button{
+    padding:8px 12px;
+    border:none;
+    border-radius:6px;
+    cursor:pointer;
+    background:#ddd;
+}
+
+#tabs button:hover{
+    background:#ccc;
+}
+
+/* CONTENEDOR */
+#contenedor{
+    display:grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap:20px;
+    padding:20px;
+}
+
+/* TARJETAS */
+.tarjeta{
+    background:white;
+    border-radius:15px;
+    overflow:hidden;
+    cursor:pointer;
+    box-shadow:0 4px 10px rgba(0,0,0,0.1);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.tarjeta:hover{
+    transform:translateY(-5px);
+    box-shadow:0 8px 18px rgba(0,0,0,0.2);
+}
+
+.tarjeta img{
+    width:100%;
+    height:140px;
+    object-fit:cover;
+}
+
+.tarjeta h3{
+    padding:10px;
+    font-size:16px;
+    color:#333;
+}
+
+/* MODAL */
+#detalle{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,0.6);
+    display:none;
+    justify-content:center;
+    align-items:center;
+}
+
+#contenidoDetalle{
+    background:white;
+    padding:25px;
+    max-width:600px;
+    width:90%;
+    border-radius:15px;
+    max-height:80vh;
+    overflow-y:auto;
+}
+
+/* BARRA CONTROLES */
+#barraControles{
+    position: static;
+    background: #f5f1ea;
+
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    align-items:flex-start;
+    gap:15px;
+    padding:15px 20px;
+
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.grupo{
+    display:flex;
+    gap:8px;
+    align-items:flex-start;
+
+    background: rgba(255,255,255,0.6);
+    padding:8px 10px;
+    border-radius:10px;
+
+    min-height:70px;
+}
+
+/* INPUTS */
+#barraControles input,
+#barraControles select,
+#barraControles button{
+    padding:6px 8px;
+    border-radius:5px;
+    border:1px solid #ccc;
+}
+
+/* BUSCADOR */
+.buscador{
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.buscador small{
+    font-size:12px;
+    color:#666;
+    margin-top:3px;
+}
+
+/* ORDEN */
+.cambiarOrden{
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.cambiarOrden small{
+    font-size:12px;
+    color:#666;
+    margin-top:3px;
+}
+
+/* FECHAS */
+.fechas{
+    display:flex;
+    gap:15px;
+}
+
+.campoFecha{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+}
+
+.campoFecha small{
+    font-size:11px;
+    color:#555;
+}
+
+.grupo button.guardar{
+    background:#5a4a3f;
+    color:white;
+}
+
+/* BOTON ARRIBA */
+#btnArriba{
+    position:fixed;
+    bottom:20px;
+    right:20px;
+    background:#5a4a3f;
+    color:white;
+    border:none;
+    border-radius:50%;
+    width:45px;
+    height:45px;
+    font-size:18px;
+    cursor:pointer;
+    display:none;
+}
+
+#btnArriba.mostrar{
+    display:block;
+}
+
+#header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:10px 20px;
+    flex-wrap:wrap;
+
+    position: static; /* 👈 CLAVE */
+}
+
+#header h1{
+    margin:0;
+}
+
+#tabs{
+    display:flex;
+    gap:10px;
+}
+
+#tabs button{
+    padding:6px 10px;
+    border:none;
+    border-radius:6px;
+    cursor:pointer;
+    background:#ddd;
+}
+
+#tabs button:hover{
+    background:#ccc;
+}
+
+.contenedorMusica{
+    display:grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap:20px;
+    padding:20px;
+}
+
+.bloqueMusica{
+    background:white;
+    border-radius:12px;
+    padding:10px;
+    box-shadow:0 4px 10px rgba(0,0,0,0.1);
+    text-align:center;
+}
+
+.bloqueMusica iframe{
+    width:100%;
+    height:200px;
+    border-radius:10px;
+}
+
+#btnMusica{
+    position:fixed;
+    bottom:20px;
+    left:20px;
+
+    width:50px;
+    height:50px;
+
+    border:none;
+    border-radius:50%;
+
+    background:#5a4a3f;
+    color:white;
+
+    font-size:22px;
+    cursor:pointer;
+
+    box-shadow:0 4px 10px rgba(0,0,0,0.2);
+
+    z-index:9999;
+}
+
+
+</style>
+</head>
+
+<body>
+
+<div id="header">
+
+    <h1>FrenteAlSagrario</h1>
+
+    <div id="tabs">
+        <button onclick="cambiarTab('inicio')">🏠 Inicio</button>
+        <button onclick="cambiarTab('enCurso')">✍ En curso</button>
+        <button onclick="cambiarTab('explorador')">🔎 Explorador FB</button>
+	<button onclick="cambiarTab('musica')">🎵 Música</button>
+    </div>
+
+</div>
+<!-- INICIO -->
+<div id="inicio" class="tab">
+
+    <!-- BARRA -->
+    <div id="barraControles">
+
+        <div class="grupo">
+            <button onclick="cambiarVista('tarjetas')">🟦<br><small>Tarjetas</small></button>
+
+            <button onclick="autoFull()">⚡<br><small>Auto PRO</small></button>
+
+            <button onclick="cambiarVista('lista')">📄<br><small>Lista</small></button>
+        </div>
+
+        <div class="grupo">
+            <button onclick="cambiarFiltro('todas')">📚<br><small>Todas</small></button>
+            <button onclick="cambiarFiltro('no_leidas')">🕓<br><small>No leídas</small></button>
+            <button onclick="cambiarFiltro('leidas')">✔<br><small>Leídas</small></button>
+        </div>
+
+        <div class="grupo buscador">
+            <input 
+                type="text" 
+                id="buscador" 
+                placeholder="Buscar..."
+                oninput="buscarTexto()"
+            >
+            <small>Escribe una palabra o frase a buscar.</small>
+        </div>
+
+        <div class="grupo cambiarOrden">
+            <select onchange="cambiarOrden(this.value)">
+                <option value="desc">↓ Nuevos</option>
+                <option value="asc">↑ Antiguos</option>
+            </select>
+            <small>Ordenar por</small>
+        </div>
+
+        <div class="grupo fechas">
+            <div class="campoFecha">
+                <input type="date" id="fechaDesde" onchange="filtrarPorFecha()">
+                <small>Desde</small>
+            </div>
+
+            <div class="campoFecha">
+                <input type="date" id="fechaHasta" onchange="filtrarPorFecha()">
+                <small>Hasta</small>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- POSTS -->
+    <div id="contenedor"></div>
+
+</div>
+
+    <!-- POSTS -->
+    <div id="contenedor"></div>
+
+</div>
+
+<!-- EN CURSO -->
+<div id="enCurso" class="tab" style="display:none;">
+    <h2>Ideas en curso</h2>
+    <textarea style="width:100%; height:150px;"></textarea>
+</div>
+
+<!-- EXPLORADOR -->
+<div id="explorador" class="tab" style="display:none;">
+    <h2>Explorador Facebook</h2>
+    <button onclick="mostrarListaFB()">Cargar lista</button>
+    <div id="contenedorFB"></div>
+</div>
+
+<!-- MUSICA -->
+<div id="musica" class="tab" style="display:none;">
+    <h2 style="text-align:center;">🎵 Música y contemplación</h2>
+
+    <div class="contenedorMusica">
+
+        <div class="bloqueMusica">
+            <p>🎹 Piano suave para oración</p>
+            <iframe src="https://www.youtube.com/embed/1ZYbU82GVz4"
+                frameborder="0"
+                allow="autoplay; encrypted-media"
+                allowfullscreen>
+            </iframe>
+        </div>
+
+        <div class="bloqueMusica">
+            <p>🎻 Instrumental contemplativo</p>
+            <iframe src="https://www.youtube.com/embed/9Q634rbsypE"
+                frameborder="0"
+                allow="autoplay; encrypted-media"
+                allowfullscreen>
+            </iframe>
+        </div>
+
+        <div class="bloqueMusica">
+            <p>🌿 Ambiente tranquilo</p>
+            <iframe src="https://www.youtube.com/embed/lFcSrYw-ARY"
+                frameborder="0"
+                allow="autoplay; encrypted-media"
+                allowfullscreen>
+            </iframe>
+        </div>
+
+    </div>
+</div>
+
+<!-- MODAL -->
+<div id="detalle" onclick="cerrarDetalle()">
+    <div id="contenidoDetalle" tabindex="0" onclick="event.stopPropagation()"></div>
+</div>
+
+<button id="btnAudio" onclick="toggleAudio()" style="
+    position:fixed;
+    bottom:80px;
+    right:20px;
+    background:#5a4a3f;
+    color:white;
+    border:none;
+    border-radius:50%;
+    width:45px;
+    height:45px;
+    font-size:18px;
+    cursor:pointer;
+">
+🔊
+</button>
+
+<!-- BOTON -->
+<button id="btnArriba" onclick="volverArriba()">⬆</button>
+
+<div class="grupo">
+    <button class="guardar" onclick="exportarJSON()">
+        💾<br><small>Guardar</small>
+    </button>
+</div>
+
+<audio id="musicaFondo" loop>
+    <source src="Claro_de_luna.mp3" type="audio/mpeg">
+</audio>
+
+<button id="btnMusica" onclick="toggleMusica()">
+    🔊
+</button>
+
+<script src="script.js"></script>
+
+</body>
+</html>
