@@ -33,6 +33,7 @@ function mostrarDetalle(post){
 
     let esLeido = leidos.includes(post.id);
     let tieneLike = likes.includes(post.id);
+	musica.volume = 0.15;
 
     contenido.innerHTML = `
         <button id="cerrarBtn" onclick="cerrarDetalle()">✖</button>
@@ -77,6 +78,7 @@ function mostrarDetalle(post){
 
 // CERRAR
 function cerrarDetalle(){
+	musica.volume = 0.4;
     document.getElementById("detalle").style.display = "none";
     document.getElementById("barraControles").style.display = "flex";
 }
