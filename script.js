@@ -102,36 +102,36 @@ function renderizar(data){
     let dataFiltrada = data;
 
     // 👉 FILTRO por estado (leídos)
-if(filtro === "no_leidas"){
-    dataFiltrada = data.filter(post => !leidos.includes(post.id));
-}
+	if(filtro === "no_leidas"){
+    	dataFiltrada = data.filter(post => !leidos.includes(post.id));
+	}
 
-if(filtro === "leidas"){
-    dataFiltrada = data.filter(post => leidos.includes(post.id));
-}
+	if(filtro === "leidas"){
+    	dataFiltrada = data.filter(post => leidos.includes(post.id));
+	}
 
-// 👉 FILTRO por texto (buscador)
-if(textoBusqueda){
-    dataFiltrada = dataFiltrada.filter(post => 
+	// 👉 FILTRO por texto (buscador)
+	if(textoBusqueda){
+	    dataFiltrada = dataFiltrada.filter(post => 
         post.titulo.toLowerCase().includes(textoBusqueda) ||
         post.texto.toLowerCase().includes(textoBusqueda)
-    );
-}
+	    );
+	}
 
-// 👉 FILTRO POR FECHA
-if(fechaDesde){
-    dataFiltrada = dataFiltrada.filter(post => 
+	// 👉 FILTRO POR FECHA
+	if(fechaDesde){
+	    dataFiltrada = dataFiltrada.filter(post => 
         parseFecha(post.fecha) >= new Date(fechaDesde)
-    );
-}
+	    );
+	}
 
-if(fechaHasta){
-    dataFiltrada = dataFiltrada.filter(post => 
+	if(fechaHasta){
+	    dataFiltrada = dataFiltrada.filter(post => 
         parseFecha(post.fecha) <= new Date(fechaHasta)
-    );
-}
+	    );
+	}
 
-dataFiltrada.sort((a, b) => {
+	dataFiltrada.sort((a, b) => {
 
     let fechaA = parseFecha(a.fecha);
     let fechaB = parseFecha(b.fecha);
@@ -167,7 +167,9 @@ dataFiltrada.forEach((post) => {
             ">
                 ${tieneLike ? "❤️" : "🤍"}
             </div>
-        `;        } else {
+        `;        
+		
+	} else {
 
             div.style.borderBottom = "1px solid #ccc";
             div.style.padding = "10px";
