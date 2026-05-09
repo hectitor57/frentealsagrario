@@ -33,7 +33,7 @@ function mostrarDetalle(post){
 
     let esLeido = leidos.includes(post.id);
     let tieneLike = likes.includes(post.id);
-	musica.volume = 0.15;
+	musica.volume = 0.8;
 
     contenido.innerHTML = `
         <button id="cerrarBtn" onclick="cerrarDetalle()">✖</button>
@@ -713,6 +713,8 @@ function actualizarEstadoMusica(){
     if(musicaActiva === "true"){
 
         btnMusica.innerHTML = "🔊";
+
+		musica.volume = 0.4
 
         if(document.getElementById("inicio").style.display !== "none"){
             musica.play().catch(() => {});
