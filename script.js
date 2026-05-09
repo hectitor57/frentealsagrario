@@ -688,11 +688,6 @@ async function autoFull(){
     );
 }
 
-let audio = document.getElementById("musicaFondo");
-let btnAudio = document.getElementById("btnAudio");
-let audioActivo = false;
-
-
 function toggleAudio(){
 
     if(audio.paused){
