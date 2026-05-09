@@ -688,17 +688,6 @@ async function autoFull(){
     );
 }
 
-function toggleAudio(){
-
-    if(audio.paused){
-        audio.play();
-        btnAudio.innerText = "🔊";
-    } else {
-        audio.pause();
-        btnAudio.innerText = "🔇";
-    }
-}
-
 let musicaActiva = localStorage.getItem("musicaActiva");
 
 if(musicaActiva === null){
