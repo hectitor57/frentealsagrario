@@ -718,7 +718,7 @@ function toggleAudio(){
 let musicaActiva = localStorage.getItem("musicaActiva");
 
 if(musicaActiva === null){
-    musicaActiva = "true";
+    musicaActiva = "false";
 }
 
 let musica = document.getElementById("musicaFondo");
