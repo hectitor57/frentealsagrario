@@ -692,17 +692,6 @@ let audio = document.getElementById("musicaFondo");
 let btnAudio = document.getElementById("btnAudio");
 let audioActivo = false;
 
-// iniciar audio al primer click del usuario
-document.addEventListener("click", function iniciarAudio() {
-
-    if(!audioActivo){
-        audio.volume = 0.4; // volumen suave
-        audio.play();
-        audioActivo = true;
-    }
-
-    document.removeEventListener("click", iniciarAudio);
-});
 
 function toggleAudio(){
 
